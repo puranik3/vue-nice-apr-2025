@@ -1,6 +1,8 @@
 # Vue Training for NICE
-Apr 21 - 24, 2025
-10:30 AM - 6:30 PM IST
+Apr 21 - 24, 2025  
+10:30 AM - 6:30 PM IST  
+
+Lunch break: 1:30 PM IST / 11:00 AM (Israel)
 
 ## Software
 - [VSCode](https://code.visualstudio.com/)
