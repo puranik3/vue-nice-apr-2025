@@ -1,0 +1,36 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hello Vue 3</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            // Vue instance - one per application
+            const app = Vue.createApp({
+                // Vue.createApp() and not new Vue()
+                // Vue 3 -> data should always be a function
+                data() {
+                    return {
+                        message: "Hello Vue 3!",
+                    };
+                },
+                template: `
+                    <div>
+                        <h1>{{ message }}</h1>
+                    </div>
+                `,
+            });
+
+            // do something...and then mount...
+
+            app.mount("#app"); // Vue 3 -> mount() and not $mount()
+        </script>
+    </body>
+</html>

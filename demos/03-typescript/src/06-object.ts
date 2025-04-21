@@ -20,3 +20,5 @@ john.spouse = "Jane";
 // john.children = [ 'Jack', 'Jill' ]; // error
 
 // john.age = 33; // error
+
+export {};
