@@ -1,0 +1,111 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.8.4/axios.min.js"></script>
+
+        <script>
+            const getWorkshops = async () => {
+                const response = await axios.get(
+                    `https://workshops-server.onrender.com/workshops`
+                );
+
+                return response.data;
+            };
+
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        loading: true,
+                        workshops: [],
+                        error: null,
+                    };
+                },
+                template: `
+                    <div class="container my-4">
+                        <h1>List of workshops</h1>
+                        <hr />
+
+                        <div
+                            v-if="loading"
+                            class="d-flex justify-content-center"
+                        >
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div
+                            v-else-if="error !== null"
+                            class="alert alert-danger"
+                            role="alert"
+                        >
+                            {{ error.message }}
+                        </div>
+
+                        <div
+                            v-else
+                        >
+                            <div class="row">
+                                <div
+                                    class="col-12 col-md-4 my-3 d-flex"
+                                    v-for="workshop in workshops"
+                                    :key="workshop.id"
+                                >
+                                    <div class="card p-3 w-100">
+                                        <img
+                                            :src="workshop.imageUrl"
+                                            :alt="workshop.name"
+                                            class="card-img-top"
+                                        >
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                {{ workshop.name }}
+                                            </h5>
+                                            <div class="card-text" v-html="workshop.description"></div>
+                                            <a href="#" class="btn btn-primary">Know more</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                // called after data is converted to a reactive object
+                async created() {
+                    console.log("created");
+
+                    this.loading = true;
+
+                    try {
+                        const workshops = await getWorkshops();
+                        this.workshops = workshops;
+                    } catch (error) {
+                        this.error = error;
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                // called after the UI shows up on the screen
+                // if you have to do low-level DOM manipulations, only then you MUST go in for mounted()
+                mounted() {
+                    console.log("mounted");
+                },
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>
