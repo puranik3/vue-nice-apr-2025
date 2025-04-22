@@ -17,9 +17,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.8.4/axios.min.js"></script>
 
         <script>
-            const getWorkshops = async () => {
+            const getWorkshops = async (page) => {
                 const response = await axios.get(
-                    `https://workshops-server.onrender.com/workshops`
+                    `https://workshops-server.onrender.com/workshops`,
+                    {
+                        params: {
+                            _page: page,
+                        },
+                    }
                 );
 
                 return response.data;
@@ -31,12 +36,45 @@
                         loading: true,
                         workshops: [],
                         error: null,
+                        page: 1,
                     };
+                },
+                methods: {
+                    changePage(by = 1) {
+                        this.page = this.page + by;
+                    },
+                    async getWorkshops() {
+                        this.loading = true;
+
+                        try {
+                            const workshops = await getWorkshops(this.page);
+                            this.workshops = workshops;
+                            console.log(this.workshops);
+                        } catch (error) {
+                            this.error = error;
+                        } finally {
+                            this.loading = false;
+                        }
+                    },
+                },
+                // usually for asynchronous operations
+                // you want to DO something when a data / prop change
+                watch: {
+                    page(newPage, oldPage) {
+                        console.log("page changed");
+                        console.log(newPage, oldPage);
+
+                        this.getWorkshops();
+                    },
                 },
                 template: `
                     <div class="container my-4">
                         <h1>List of workshops</h1>
                         <hr />
+
+                        <div>You are on page {{ page }}</div>
+                        <button class="btn btn-sm btn-primary me-2" @click="changePage(-1)">Previous</button>
+                        <button class="btn btn-sm btn-primary me-2" @click="changePage(1)">Next</button>
 
                         <div
                             v-if="loading"
@@ -87,17 +125,7 @@
                 async created() {
                     console.log("created");
 
-                    this.loading = true;
-
-                    try {
-                        const workshops = await getWorkshops();
-                        this.workshops = workshops;
-                        console.log(this.workshops);
-                    } catch (error) {
-                        this.error = error;
-                    } finally {
-                        this.loading = false;
-                    }
+                    this.getWorkshops();
                 },
                 // called after the UI shows up on the screen
                 // if you have to do low-level DOM manipulations, only then you MUST go in for mounted()
