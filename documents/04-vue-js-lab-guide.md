@@ -2552,7 +2552,7 @@ This example illustrates the importance of adhering to naming conventions and th
 
 ## Step 24: Prop Validation and passing props that are not strings
 
-### Code Example
+### Code
 
 - In `24-prop-validation-and-non-string-props.html`
 
@@ -2711,7 +2711,7 @@ This step highlights the importance of prop validation in Vue.js to ensure compo
 
 ## Step 25: Composing Components
 
-### Code Example
+### Code
 
 - In `25-composing-components.html`
 
@@ -2825,7 +2825,7 @@ By understanding and utilizing component composition, local registration, props,
 
 ## Step 26: Custom Events with `$emit` and Passing All Properties as Props
 
-### Code Example
+### Code
 
 - In `26-child-to-parent-communication-custom-events-$emit-and-passing-object-properties-as-props.html`
 
@@ -3033,7 +3033,7 @@ This approach simplifies the template and ensures that all relevant properties a
 
 ## Step 27: Passing Functions as Props in Vue.js
 
-### Code Example
+### Code
 
 - In `27-child-to-parent-communication-passing-function-as-prop.html`
 
@@ -3232,7 +3232,7 @@ This step highlights the importance of adhering to Vue's design principles for c
 
 ## Step 28: Scoped Slots and Named Slots in Vue.js
 
-### Code Example
+### Code
 
 - In `28-slots-named-and-scoped.html`
 
@@ -3431,7 +3431,7 @@ This step demonstrates how **scoped slots** and **named slots** can be utilized 
 
 ## Step 29: Two-Way Binding with `.sync` Modifier in Vue.js
 
-### Code Example
+### Code
 
 - In `29-sync-modifier-2-way-data-binding-in-custom-components.html`
 
@@ -3578,7 +3578,7 @@ This step demonstrates how to implement two-way data binding between parent and 
 
 ## Step 30: Advanced Attribute Handling and v-model Implementation for custom input components
 
-### Code Example
+### Code
 
 - In `30-$attrs-custom-input-v-model-binding.html`
 
@@ -4003,7 +4003,7 @@ Dynamic components are a powerful feature in Vue.js that, when used appropriatel
 
 ## Step 33: Preserving Component State with `<keep-alive>`
 
-### Code Example
+### Code
 
 - In `33-keep-alive-for-preserving-component-state.html`
 
@@ -4205,3 +4205,1100 @@ By wrapping dynamic components with `<keep-alive>`, Vue caches inactive componen
 
 ---
 
+## Step 34: Introduction to the Composition API
+
+### Code
+
+- In `34-hello-composition-api.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello Vue 3 Composition API</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.4/vue.global.min.js"></script>
+
+    <script>
+      // in a normal application setup
+      // import { ref } from 'vue';
+
+      // when we include a script like above..
+      const { ref } = Vue;
+
+      const root = Vue.createApp({
+        setup() {
+          // creating data...
+          // ref() - generally for primitive value -> number, boolean, string
+          // reactive() - generally for objects
+
+          // const value = 0;
+          const counter = ref(0); // counter -> { value: 0 } which is reactive, i.e. the component view re-renders when the value updates
+
+          const decrement = () => {
+            --counter.value;
+          };
+
+          const increment = () => {
+            ++counter.value;
+          };
+
+          // the setup function must return all that you need to make use of in the template
+          return {
+            counter,
+            decrement,
+            increment,
+          };
+        },
+        // You can use counter.value with ref objects, but that is unnecessary as refs are automatically unwrapped within the template
+        template: `
+          <div class="container my-5">
+            <button @click="decrement" class="btn btn-sm btn-primary">-</button>
+            {{ counter }}
+            <button @click="increment" class="btn btn-sm btn-primary">+</button>
+          </div>
+        `,
+      });
+
+      root.mount("#app");
+    </script>
+  </body>
+</html>
+```
+
+### Explanation of New Concepts
+
+This example introduces key features of Vue 3's Composition API, particularly the `setup()` function and the `ref()` method.
+
+#### 1. `setup()` Function
+
+- **Purpose**: The `setup()` function is a new component option in Vue 3 that serves as the entry point for using the Composition API. It is called before the component is created and is used to define reactive state, computed properties, and functions.
+
+- **Usage in Code**: In the provided code, `setup()` is used to define a reactive `counter` variable and two methods, `increment` and `decrement`, which modify the counter's value.
+
+- **Return Value**: The `setup()` function returns an object containing the variables and functions that should be accessible in the component's template. In this case, it returns `counter`, `increment`, and `decrement`.
+
+#### 2. `ref()` Method
+
+- **Purpose**: The `ref()` function is used to create a reactive reference to a primitive value (e.g., number, string, boolean). It returns an object with a `.value` property that holds the actual value.
+
+- **Usage in Code**: The line `const counter = ref(0);` creates a reactive reference to the number `0`. The `counter` variable is then used in the `increment` and `decrement` functions to modify its value.
+
+- **Reactivity**: When the `.value` of a `ref` is changed, Vue automatically tracks the dependency and updates the DOM accordingly.
+
+- **Template Unwrapping**: In the component's template, you can access the value of a `ref` directly without using `.value`. Vue automatically unwraps the `ref` when used in templates. For example, `{{ counter }}` displays the current value of `counter`.
+
+### Summary
+
+This example demonstrates how to use Vue 3's Composition API to create a simple counter component. By utilizing the `setup()` function and the `ref()` method, you can define reactive state and methods in a more organized and flexible way compared to the Options API.
+
+For more information on Vue 3's Composition API, you can refer to the official documentation: https://vuejs.org/guide/introduction.html 
+
+---
+
+## Step 35: Motivation for Composition API - The drawback of mixins
+
+### Code
+
+- In `35-motivation-for-composition-api-drawback-of-mixins.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            Motivation for using Composition API - Problem with mixins
+        </title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.4/vue.global.min.js"></script>
+
+        <script>
+            // mixins - share code between components
+            // - they are not composables
+            // - they are reusable but can cause maintenance issues
+
+            // alternative in Options API for code sharing is mixins - defining a mixin
+            const MousemoveMixin = {
+                data() {
+                    return {
+                        x: 0,
+                        y: 0,
+                        offsetX: 0,
+                        offsetY: 0,
+                    };
+                },
+                methods: {
+                    onMousemove(event) {
+                        this.x = event.pageX;
+                        this.y = event.pageY;
+                        this.offsetX = event.offsetX;
+                        this.offsetY = event.offsetY;
+                    },
+                },
+                mounted() {
+                    window.addEventListener("mousemove", this.onMousemove);
+                },
+                unmounted() {
+                    window.removeEventListener("mousemove", this.onMousemove);
+                },
+            };
+
+            const TrackMouseMove = {
+                name: "TrackMouseMove",
+
+                // alternative in Options API for code sharing is mixins - using a mixin
+                mixins: [MousemoveMixin],
+
+                template: `
+                    <div class="container my-5">
+                        Mouse is at {{ x }} {{ y }}
+                    </div>
+                `,
+            };
+
+            const PaintApp = {
+                name: "PaintApp",
+
+                // alternative in Options API for code sharing is mixins - using a mixin
+                mixins: [MousemoveMixin],
+
+                data() {
+                    // this gets overridden by the mixin as it has the same name as what is in the mixin
+                    return {
+                        x: "some other point x coordinate",
+                        y: "some other point y coordinate",
+                    };
+                },
+
+                template: `
+                    <div>
+                        <span>
+                            <div>Page x, y : ( {{ x }}, {{ y }} )</div>
+                            <div>x, y : ( {{ x }}, {{ y }} )</div>
+                            <div>Offset x, y : ( {{ offsetX }}, {{ offsetY }} )</div>
+                        </span>
+                    </div>
+                `,
+            };
+
+            const root = Vue.createApp({
+                components: {
+                    TrackMouseMove,
+                    PaintApp,
+                },
+                template: `
+                    <div>
+                        <track-mouse-move></track-mouse-move>
+                        <paint-app></paint-app>
+                    </div>
+                `,
+            });
+
+            root.mount("#app");
+        </script>
+    </body>
+</html>
+```
+
+### Explanation of the Drawback of Using Mixins
+
+In this example, the `MousemoveMixin` is designed to track the mouse's position and provide `x`, `y`, `offsetX`, and `offsetY` data properties, along with an `onMousemove` method to update these values. Both `TrackMouseMove` and `PaintApp` components incorporate this mixin to utilize its functionality.
+
+However, in the `PaintApp` component, there's a critical issue:
+
+```javascript
+data() {
+    // this gets overridden by the mixin as it has the same name as what is in the mixin
+    return {
+        x: "some other point x coordinate",
+        y: "some other point y coordinate",
+    };
+},
+```
+
+Here, `PaintApp` defines its own `x` and `y` data properties, intending to use them for a different purpose. But since the `MousemoveMixin` also defines `x` and `y`, a conflict arises.
+
+This situation exemplifies one of the significant drawbacks of using mixins: **naming conflicts**. When multiple sources define properties or methods with the same names, it can lead to unexpected behaviors and make the codebase harder to maintain and debug.
+
+### Summary
+
+While mixins offer a way to share functionality across components, they come with drawbacks like naming conflicts and implicit dependencies. The Composition API provides a more robust and maintainable solution by promoting explicitness and better encapsulation of shared logic.
+
+---
+
+## Step 36: Composables, and their advantages
+
+### Code 
+ 
+- In `36-why-composition-api-using-composables.html`
+
+### Code Snippet
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    Motivation for using Composition API - Overcomes the problems with
+    mixins and provides a better way to share code
+  </title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+  />
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.4/vue.global.min.js"></script>
+
+  <script>
+    const { ref, onMounted, onUnmounted } = Vue;
+
+    // "composables" - functions that have shared functionality of components - they will use some of the composition APIs
+    // - they may
+    //      - share data
+    //      - share methods
+    //      - share computed
+    //      - setup common lifecycle methods
+    //      - setup common watchers
+    function useMouse() {
+      const x = ref(0);
+      const y = ref(0);
+      const offsetX = ref(0);
+      const offsetY = ref(0);
+
+      function onMousemove(event) {
+        x.value = event.pageX;
+        y.value = event.pageY;
+        offsetX.value = event.offsetX;
+        offsetY.value = event.offsetY;
+      }
+
+      // created() equivalent -> just write code directly inside setup
+
+      // mounted() { ... }
+      onMounted(() => {
+        window.addEventListener("mousemove", onMousemove);
+      });
+
+      onUnmounted(() => {
+        window.removeEventListener("mousemove", onMousemove);
+      });
+
+      return {
+        x,
+        y,
+        offsetX,
+        offsetY,
+      };
+    }
+
+    const TrackMouseMove = {
+      name: "TrackMouseMove",
+      setup() {
+        return useMouse();
+      },
+      template: `
+        <div class="container my-5">
+          Mouse is at {{ x }} {{ y }}
+        </div>
+      `,
+    };
+
+    const PaintApp = {
+      name: "PaintApp",
+      setup() {
+        // let us say this component already has x, y data variables that are for some other purpose
+        // NOTE : These are not reactive
+        const x = "old position x",
+          y = "old position y";
+
+        // no problem - we can rename! With mixins, we cannot rename
+        const { x: pageX, y: pageY, offsetX, offsetY } = useMouse();
+
+        return {
+          pageX,
+          pageY,
+          offsetX,
+          offsetY,
+          x,
+          y,
+        };
+      },
+      template: `
+        <div style="position: relative; box-sizing: border-box; margin: 8px; width: calc( 100% - 16px ); height: calc( 100vh - 160px ); border: 1px solid black;">
+          <span>
+            <div>Page x, y : ( {{ pageX }}, {{ pageY }} )</div>
+            <div>x, y : ( {{ x }}, {{ y }} )</div>
+            <div>Offset x, y : ( {{ offsetX }}, {{ offsetY }} )</div>
+          </span>
+        </div>
+      `,
+    };
+
+    const root = Vue.createApp({
+      components: {
+        TrackMouseMove,
+        PaintApp,
+      },
+      template: `
+        <div>
+          <track-mouse-move></track-mouse-move>
+          <paint-app></paint-app>
+        </div>
+      `,
+    });
+
+    root.mount("#app");
+  </script>
+</body>
+</html>
+```
+
+---
+
+### Explanation of New Concepts
+
+#### 1. **Composables**
+
+In Vue 3, **composables** are functions that encapsulate and reuse stateful logic across components. They leverage the Composition API to provide a more flexible and modular approach to code reuse compared to traditional mixins.
+
+In the provided code, `useMouse` is a composable that tracks mouse movement:
+
+```javascript
+function useMouse() {
+  const x = ref(0);
+  const y = ref(0);
+  const offsetX = ref(0);
+  const offsetY = ref(0);
+
+  function onMousemove(event) {
+    x.value = event.pageX;
+    y.value = event.pageY;
+    offsetX.value = event.offsetX;
+    offsetY.value = event.offsetY;
+  }
+
+  onMounted(() => {
+    window.addEventListener("mousemove", onMousemove);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener("mousemove", onMousemove);
+  });
+
+  return {
+    x,
+    y,
+    offsetX,
+    offsetY,
+  };
+}
+```
+
+This function can be imported and used in any component's `setup` function, providing reactive mouse position data.
+
+#### 2. **Avoiding Naming Conflicts**
+
+One of the drawbacks of mixins is the potential for naming conflicts, as properties and methods from mixins are merged into the component's namespace. This can lead to unexpected behavior if a component and a mixin define properties or methods with the same name.
+
+With composables, you have explicit control over the names of the properties and methods you import. You can even rename them during destructuring to avoid conflicts.
+
+In the `PaintApp` component:
+
+```javascript
+const { x: pageX, y: pageY, offsetX, offsetY } = useMouse();
+```
+
+
+Here, `x` and `y` from `useMouse` are renamed to `pageX` and `pageY` to avoid clashing with existing `x` and `y` variables in the component.
+
+#### 3. **Lifecycle Hooks in Composition API**
+
+The Composition API provides lifecycle hooks like `onMounted` and `onUnmounted` that can be used within composables to manage side effects.
+
+In `useMouse`:
+
+```javascript
+onMounted(() => {
+  window.addEventListener("mousemove", onMousemove);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("mousemove", onMousemove);
+});
+```
+
+These hooks ensure that the event listener is added when the component is mounted and removed when it's unmounted, preventing potential memory leaks.
+
+---
+
+### Advantages of Composables over Mixins
+
+The Composition API, introduced in Vue 3, offers several advantages over traditional mixins, addressing many of the limitations associated with mixins:
+
+#### 1. **Explicitness and Clarity**
+
+With mixins, properties and methods are merged into the component, which can lead to ambiguity about their origins. In contrast, composables require explicit imports and usage within the `setup` function, making the source of each piece of logic clear and the codebase easier to understand and maintain.
+
+#### 2. **Avoidance of Naming Conflicts**
+
+Mixins can lead to naming collisions since their properties and methods are merged into the component's namespace. Composables mitigate this risk by allowing developers to destructure and rename variables as needed, ensuring that naming conflicts are avoided and the code remains robust.
+
+#### 3. **Enhanced Reusability and Flexibility**
+
+Composables are functions that can accept parameters, enabling the creation of more flexible and reusable logic. This is a significant improvement over mixins, which do not support parameterization, limiting their adaptability across different components.
+
+#### 4. **Improved Type Safety and IDE Support**
+
+Composables, being standard JavaScript functions, integrate seamlessly with TypeScript and modern IDEs, providing better type inference, autocompletion, and error checking. This enhances the developer experience and reduces the likelihood of runtime errors.
+
+#### 5. **Better Code Organization**
+
+The Composition API encourages organizing code by logical concerns rather than component options. This modular approach leads to better separation of concerns, making the codebase more maintainable and scalable, especially in large applications.
+
+---
+
+### Conclusion
+
+While mixins were a useful feature in Vue 2 for code reuse, they come with several drawbacks, such as naming conflicts and lack of clarity. The Composition API addresses these issues by providing a more explicit, flexible, and modular approach to code organization and reuse. By leveraging composables, developers can create more maintainable and scalable Vue applications.
+
+--- 
+
+## Step 37: Composable - useFetch, Composition API - reactive, toRefs, watch, computed
+
+### Code
+
+- In `37-more-on-composition-api-and-composables.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hello Vue</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.4/vue.global.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.js"></script>
+
+        <script>
+            const { computed, onMounted, reactive, ref, toRefs, watch } = Vue;
+
+            const getWorkshops = async (page = 1) => {
+                const response = await axios.get(
+                    `https://workshops-server.onrender.com/workshops`,
+                    {
+                        params: {
+                            _page: page,
+                        },
+                    }
+                );
+
+                return response.data;
+            };
+
+            // A composable that fetches data from the given source (using the given `fetcher` function that makes the backend call and returns the data)
+            const useFetch = (fetcher, initialData) => {
+                // --- data ---
+                const state = reactive({
+                    loading: true,
+                    error: null,
+                    data: initialData,
+                });
+
+                // -- methods --
+                const fetchData = async () => {
+                    state.loading = true;
+
+                    try {
+                        const data = await fetcher();
+
+                        // update data
+                        // observe that for data created using reactive(), there is no ".value" used to refer to or update the value
+                        state.data = data;
+                    } catch (error) {
+                        state.error = error;
+                    } finally {
+                        state.loading = false;
+                    }
+                };
+
+                // -- lifecycle methods ---
+                onMounted(fetchData);
+
+                // --- ready the data to be passed back to the component ---
+                // this won't work - when we destructure - the individual pieces ie. loading, error, data are not reactive - UI won't update
+                // const { loading, error, data } = state;
+
+                // using toRefs() will make these reactive as well
+                const { loading, error, data } = toRefs(state);
+
+                return {
+                    loading,
+                    error,
+                    data,
+                    fetchData, // the component may need to fetch data at other times (apart from at the time of mount)
+                };
+            };
+
+            const WorkshopsList = {
+                name: "WorkshopsList",
+                setup(props, context) {
+                    // props is a reactive object with read-only properties (we cannot modify the props but parent can modify the props)
+
+                    // context gives access to attrs, slots, emit
+                    console.log(context.attrs); // attributes like class, style
+                    console.log(context.slots); // access to slot content
+                    context.emit("setup", "hello"); // emit event
+
+                    // --- data ---
+                    const page = ref(1);
+
+                    const fetcher = async () => {
+                        return await getWorkshops(page.value);
+                    };
+
+                    // like we normally use functions, the composables can be passed arguments for customization
+                    const {
+                        loading,
+                        error,
+                        data: workshops,
+                        fetchData,
+                    } = useFetch(fetcher, []);
+
+                    // --- methods ---
+                    // Methods are defined directly within setup function
+                    const previous = () => {
+                        --page.value;
+                    };
+
+                    const next = () => {
+                        ++page.value;
+                    };
+
+                    // --- lifecycle methods ---
+
+                    // created (if you want to use)
+                    // await getWorkshops() // this will work in SFC as well
+
+                    // mounted (what we choose to use instead of created)
+                    // onMounted(fetchWorkshops); // we moved this to useFetch() composable
+
+                    // -- watchers ---
+                    // watching data changes using Composition API
+                    // newValues -> [ page, x, y ] (the new values of the reactive variables)
+                    // oldValues -> [ page, x, y ] (the old values of the reactive variables)
+                    // Note: May be oldX === newX -> true (but at least one of page, x, y would have changed)
+                    // watch( [ page, x, y ], (newValues, oldValues) => {
+                    // ...
+                    // });
+
+                    // we want to watch only 1 value -> page
+                    // Note that we provide the reactive variable and not with ".value"
+                    watch(page, fetchData);
+
+                    const pageInfo = computed(() => {
+                        return `You are viewing page ${page.value}`;
+                    });
+
+                    // expose these to the template using state created using reactive()... - works
+                    // return {
+                    //     state,
+                    // };
+
+                    return {
+                        loading, // destructured from reactive
+                        error, // ...
+                        workshops, // ...
+                        page, // ref
+                        previous,
+                        next,
+                        pageInfo,
+                    };
+                },
+                // watch: {
+                //     page() {
+                //         this.fetchWorkshops();
+                //     }
+                // },
+                template: `
+                    <div>
+                        <div class="my-3">
+                            <button class="btn btn-sm btn-primary me-2" @click="previous">Previous</button>
+                            <button class="btn btn-sm btn-primary" @click="next">Next</button>
+                        </div>
+                        <div>{{ pageInfo }}</div>
+                        <div v-if="loading">
+                            Loading workshops...
+                        </div>
+                        <div v-else-if="error">
+                            {{ error.message }}
+                        </div>
+                        <div v-else>
+                            <ul>
+                                <li v-for="workshop of workshops" :key="workshop.id">
+                                    {{ workshop.name }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+            };
+
+            const root = Vue.createApp({
+                components: {
+                    WorkshopsList,
+                },
+                template: `
+                    <div class="container my-5">
+                        <workshops-list></workshops-list>
+                    </div>
+                `,
+            });
+
+            root.mount("#app");
+        </script>
+    </body>
+</html>
+```
+---
+
+## Code Explanation
+
+### 1. **Reactive State Management**
+
+The `useFetch` composable function manages the data fetching logic. It utilizes Vue's reactivity system to handle loading states, errors, and the fetched data.
+
+```javascript
+const state = reactive({
+    loading: true,
+    error: null,
+    data: initialData,
+});
+```
+
+Here, `reactive` creates a reactive object `state` that tracks the loading status, any errors, and the fetched data.
+
+### 2. **Data Fetching with Axios**
+
+The `fetchData` function within `useFetch` performs the actual data fetching using Axios:
+
+```javascript
+const fetchData = async () => {
+    state.loading = true;
+    try {
+        const data = await fetcher();
+        state.data = data;
+    } catch (error) {
+        state.error = error;
+    } finally {
+        state.loading = false;
+    }
+};
+```
+
+
+This function sets the loading state to true before initiating the fetch, updates the data upon success, handles any errors, and finally sets the loading state to false.
+
+### 3. **Lifecycle Hook: onMounted**
+
+The `onMounted` hook ensures that data fetching occurs when the component is mounted:
+
+```javascript
+onMounted(fetchData);
+```
+
+This hook is part of Vue's Composition API and is called after the component is mounted.
+
+### 4. **Returning Reactive References**
+
+To maintain reactivity when destructuring the `state` object, `toRefs` is used:
+
+```javascript
+const { loading, error, data } = toRefs(state);
+```
+
+This converts each property of the reactive `state` object into a ref, preserving reactivity when these properties are destructured.
+
+### 5. **Component: WorkshopsList**
+
+The `WorkshopsList` component utilizes the `useFetch` composable to fetch and display workshop data. It manages pagination through a reactive `page` ref:
+
+```javascript
+const page = ref(1);
+```
+
+The `fetcher` function, passed to `useFetch`, fetches data based on the current page:
+
+```javascript
+const fetcher = async () => {
+    return await getWorkshops(page.value);
+};
+```
+
+The component watches for changes in the `page` ref to refetch data:
+
+```javascript
+watch(page, fetchData);
+```
+
+A computed property `pageInfo` provides a user-friendly message indicating the current page:
+
+```javascript
+const pageInfo = computed(() => {
+    return `You are viewing page ${page.value}`;
+});
+```
+
+### 6. **Template Rendering**
+
+The template renders navigation buttons, the current page information, and the list of workshops. It conditionally displays loading and error messages based on the reactive state:
+
+```html
+<div class="my-3">
+    <button class="btn btn-sm btn-primary me-2" @click="previous">Previous</button>
+    <button class="btn btn-sm btn-primary" @click="next">Next</button>
+</div>
+<div>{{ pageInfo }}</div>
+<div v-if="loading">
+    Loading workshops...
+</div>
+<div v-else-if="error">
+    {{ error.message }}
+</div>
+<div v-else>
+    <ul>
+        <li v-for="workshop of workshops" :key="workshop.id">
+            {{ workshop.name }}
+        </li>
+    </ul>
+</div>
+```
+
+---
+
+## Key Concepts Introduced
+
+1. **Composables**: Reusable functions (like `useFetch`) that encapsulate logic and can be used across components.
+
+2. **Reactivity Utilities**:
+   - `ref`: Creates a reactive reference to a value.
+   - `reactive`: Creates a reactive object.
+   - `toRefs`: Converts a reactive object into an object of refs, preserving reactivity when destructuring.
+   - `computed`: Creates a computed property that updates when its dependencies change.
+   - `watch`: Watches for changes in reactive data and executes a callback.
+   - `onMounted`: Lifecycle hook that runs after the component is mounted.
+
+3. **Data Fetching with Axios**: Demonstrates how to fetch data from an API using Axios within a composable.
+
+4. **Pagination Handling**: Manages pagination by updating the `page` ref and refetching data accordingly.
+
+5. **Template Syntax**: Utilizes Vue's template syntax to conditionally render content based on the component's state.
+
+---
+
+This example showcases how Vue 3's Composition API and reactivity system can be leveraged to create modular, reusable, and maintainable code for data fetching and state management.
+
+---
+
+## Step 38: Introducing Custom Directives in Vue 3
+
+This step demonstrates how to create and use custom directives in Vue 3, focusing on the `v-highlight` directive. Custom directives allow developers to encapsulate reusable DOM manipulations, enhancing code modularity and readability.
+
+### Code
+
+- In `38-custom-directives.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hello Vue</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+        <style>
+            .is-highlight {
+                background-color: yellow; /* default highlight color */
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.16/vue.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.4/vue.global.min.js"></script>
+
+        <script>
+            // el -> host element -> div having the v-highlight
+            function highlightEl(el, binding) {
+                console.log(el);
+                console.log(binding);
+
+                console.log("called");
+
+                const { arg, value } = binding;
+
+                if (!arg) {
+                    el.classList.add("is-highlight");
+
+                    if (value) {
+                        el.style.backgroundColor = value;
+                    }
+                } else {
+                    el.style[arg] = value;
+                }
+            }
+
+            const highlight = {
+                mounted: highlightEl,
+                updated: highlightEl,
+            };
+
+            // v3
+            const root = Vue.createApp({
+                data() {
+                    return {
+                        color: "crimson",
+                    };
+                },
+                // local registration
+                // directives: {
+                //     highlight,
+                // },
+                template: `
+                    <div class="container my-5">
+                        <div v-highlight>
+                            Hello directive without argument and with value
+                        </div>
+                        <div v-highlight="color">
+                            Hello directive without argument and with value
+                        </div>
+                        <div v-highlight:color="color">
+                            Hello directive with argument and with value
+                        </div>
+                        <div v-highlight:fontSize="'12px'">
+                            Hello directive with argument and with value
+                        </div>
+                    </div>
+                `,
+            });
+
+            // global registration
+            root.directive("highlight", highlight);
+
+            root.mount("#app");
+        </script>
+    </body>
+</html>
+```
+
+---
+
+### Key Concepts Introduced:
+
+1. **Custom Directives**: Vue allows the creation of custom directives to encapsulate DOM manipulations. In this example, `v-highlight` is a custom directive that applies styles to elements.
+
+2. **Directive Lifecycle Hooks**: The directive utilizes the `mounted` and `updated` hooks to apply styles when the element is inserted into the DOM and when the bound data changes.
+
+3. **Directive Binding Object**: Within the directive function, the `binding` object provides access to:
+   - `value`: The value passed to the directive.
+   - `arg`: An optional argument specifying which style property to apply.
+
+4. **Global vs. Local Registration**: Directives can be registered globally using `app.directive` or locally within a component's `directives` option. This example demonstrates global registration.
+
+### How the `v-highlight` Directive Works:
+
+- **Without Argument**:
+  - Adds the `is-highlight` CSS class to the element.
+  - If a value is provided, sets the element's `backgroundColor` to that value.
+
+- **With Argument**:
+  - Applies the value to the specified CSS property indicated by the argument.
+
+### Examples:
+
+- `<div v-highlight>`: Applies the default highlight styling.
+
+- `<div v-highlight="color">`: Applies the highlight with a dynamic background color based on the `color` data property.
+
+- `<div v-highlight:color="color">`: Directly sets the `color` CSS property to the value of the `color` data property.
+
+- `<div v-highlight:fontSize="'12px'">`: Sets the `fontSize` CSS property to `12px`.
+
+### Benefits of Using Custom Directives:
+
+- **Reusability**: Encapsulate common DOM manipulations for reuse across components.
+
+- **Separation of Concerns**: Keep template logic clean by abstracting DOM operations into directives.
+
+- **Flexibility**: Easily apply dynamic styles or behaviors based on component data.
+
+By leveraging custom directives like `v-highlight`, developers can create more maintainable and expressive Vue applications. 
+
+---
+
+## Step 39: Understanding the `.lazy` Modifier in Vue 3's `v-model`
+
+### Code
+
+- In `39-lazy-modifier-for-v-model.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>The .lazy modifier</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.4/vue.global.min.js"></script>
+
+        <script>
+            const root = Vue.createApp({
+                data() {
+                    return {
+                        firstName: "",
+                        lastName: "",
+                    };
+                },
+                template: `
+                    <div class="container my-5">
+                        <div class="mb-3">
+                            <input type="text" placeholder="John (normal syncing on @input)" v-model="firstName" class="form-control" />
+                            {{ firstName }}
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" placeholder="Doe (lazy syncing on @change - blur out to check)" v-model.lazy="lastName" class="form-control" />
+                            {{ lastName }}
+                        </div>
+                    </div>
+                `,
+            });
+
+            root.mount("#app");
+        </script>
+    </body>
+</html>
+```
+
+This example demonstrates the use of the `.lazy` modifier with Vue 3's `v-model` directive, which alters the default behavior of data binding between form inputs and component data.
+
+#### Introducing the `.lazy` Modifier
+
+The `.lazy` modifier changes this behavior by syncing the data only on the `change` event. This means the data updates when the input loses focus or when the user presses the Enter key, rather than on every keystroke.
+
+#### Practical Example
+
+In the provided code:
+
+- **First Input (`firstName`)**: Uses standard `v-model`, updating the `firstName` data property with each keystroke.
+
+- **Second Input (`lastName`)**: Uses `v-model.lazy`, updating the `lastName` data property only after the input loses focus or the Enter key is pressed.
+
+This behavior is particularly useful in scenarios where immediate data updates are unnecessary or could lead to performance issues, such as live-search features or API calls on input changes.
+
+#### Syntax
+
+To apply the `.lazy` modifier, simply append it to the `v-model` directive:
+
+```html
+<input v-model.lazy="yourDataProperty" />
+```
+
+#### Benefits of Using `.lazy`
+
+- **Performance Optimization**: Reduces the number of data updates, which can be beneficial when each update triggers expensive operations.
+
+- **Controlled Data Binding**: Provides more control over when data updates occur, which can be useful in form validations or when batching updates.
+
+- **Enhanced User Experience**: Prevents unnecessary re-renders or computations during user input, leading to a smoother experience.
+
+By understanding and utilizing the `.lazy` modifier, developers can fine-tune the responsiveness and performance of their Vue applications, ensuring data updates occur precisely when intended. 
+
+---
+
+## Step 40: Exercise - Star Rating component using Composition API
+
+### Objective
+
+Create an interactive rating component that allows users to select a rating from 1 to 5 by clicking on circular icons. The selected rating should be visually highlighted and stored reactively.
+
+### Requirements
+
+- **Component Structure**: Develop a Vue 3 component named `CircleRating`.
+
+- **Display**: Render five circular icons representing ratings from 1 to 5.
+
+- **Interactivity**:
+  - When a user clicks on a circle, update the selected rating to that number.
+  - Visually distinguish selected ratings by filling the circles up to the chosen rating.
+
+- **Reactivity**: Utilize Vue 3's Composition API to manage the reactive state of the selected rating.
+
+- **Styling**: Apply appropriate CSS classes to style the circles and indicate the selected rating.
+
+### Guidelines
+
+- **Reactive State**: Use the `ref` function from Vue's Composition API to create a reactive variable for the rating.
+
+- **Event Handling**: Implement a click event handler to update the rating based on user interaction.
+
+- **Dynamic Classes**: Apply conditional classes to the circles to reflect the current rating visually. Use a computed property that returns a function to determine whether each circle should be filled.
+
+- **Component Integration**: Ensure the `CircleRating` component can be integrated into a parent Vue application.
+
+### Example
+
+When the component is rendered, it should display five circles. If a user clicks on the third circle, the first three circles should appear filled, indicating a rating of 3.
+
+### Bonus Challenge
+
+- **Prop Integration**: Allow the component to accept an initial rating value as a prop.
+
+- **Event Emission**: Emit an event whenever the rating changes, enabling parent components to respond to the change.
+
+This exercise will help you understand how to create interactive components using Vue 3's Composition API and manage reactive state effectively.
+
+---
