@@ -1,0 +1,113 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Conditional Inline Styling</title>
+        <!-- <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        /> -->
+        <style>
+            .alert {
+                padding: 8px;
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 4px;
+            }
+
+            .alert-success {
+                color: green;
+                border-color: green;
+            }
+
+            .alert-error {
+                color: red;
+                border-color: red;
+            }
+
+            .alert-high {
+                font-weight: bold;
+            }
+
+            .alert-low {
+                font-weight: normal;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        message: {
+                            text: "Mail was sent successfully",
+                            status: "success",
+                            importance: "high",
+                        },
+                    };
+                },
+                methods: {
+                    setSuccess() {
+                        this.message.text = "Mail was sent successfully";
+                        this.message.status = "success";
+                    },
+                    setError() {
+                        this.message.text = "Mail could not be sent";
+                        this.message.status = "error";
+                    },
+                    toggleImportance() {
+                        this.message.importance =
+                            this.message.importance === "high" ? "low" : "high";
+                    },
+                },
+                computed: {
+                    messageClasses() {
+                        // The dynamic class (value set to :class) can also be an object (instead of a string) - Refer to Step 18 in the lab guide
+
+                        // return this.message.status === "success"
+                        //     ? "alert-success"
+                        //     : "alert-error";
+
+                        // when you have lot of conditions to check, and apply many CSS class conditionally, it is better to opt for the object syntax
+                        return {
+                            "alert-success": this.message.status === "success",
+                            "alert-error": this.message.status === "error",
+                            "alert-high": this.message.importance === "high",
+                            "alert-low": this.message.importance === "low",
+                        };
+                    },
+                },
+                // class="alert" -> CSS class name (alert is a CSS class and not a data/computed value)
+                // :class="messageClass" -> dynamic class name (alert is a data/computed value, and not a CSS class name)
+                template: `
+                    <div>
+                        <button @click="setSuccess">
+                            Set a success message
+                        </button>
+                        <button @click="setError">
+                            Set an error message
+                        </button>
+                        <button @click="toggleImportance">
+                            Toggle importance
+                        </button>
+
+                        <div
+                            class="alert"
+                            :class="messageClasses"
+                        >
+                            {{ message.text }}
+                        </div>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>

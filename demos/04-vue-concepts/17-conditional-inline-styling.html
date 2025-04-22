@@ -1,0 +1,59 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Conditional Inline Styling</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        message: {
+                            text: "Mail was sent successfully",
+                            status: "success",
+                        },
+                    };
+                },
+                methods: {
+                    setSuccess() {
+                        this.message.text = "Mail was sent successfully";
+                        this.message.status = "success";
+                    },
+                    setError() {
+                        this.message.text = "Mail could not be sent";
+                        this.message.status = "error";
+                    },
+                },
+                computed: {
+                    messageStyle() {
+                        // The dynamic style (value set to :style) can also be an object (instead of a string) - Refer to Step 17 in the lab guide
+                        return this.message.status === "success"
+                            ? "color: green"
+                            : "color: red";
+                    },
+                },
+                template: `
+                    <div>
+                        <button @click="setSuccess">Set a success message</button>
+                        <button @click="setError">Set an error message</button>
+
+                        <div :style="messageStyle">{{ message.text }}</div>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>

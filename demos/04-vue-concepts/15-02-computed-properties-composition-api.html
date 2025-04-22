@@ -22,9 +22,13 @@
             const app = Vue.createApp({
                 setup() {
                     // --- data ---
+                    // In Composition API, ref() and reactive() convert our data into "reactive" values (only then can Vue track changes to such data)
+                    // In Options API also, the object returned by data() function is transformed into "reactive" value (internally by Vue)
                     const firstName = ref("John"); // { value: "John" }
                     const lastName = ref("Doe");
-                    const age = ref(32);
+
+                    // let age = 32; // non-reactive data (Vue JS cannot track changes on this)
+                    let age = ref(32); // reactive data (Vue JS CAN track changes on this)
 
                     // --- computed ---
                     const fullName = computed(() => {

@@ -15,12 +15,15 @@
 
         <script>
             // Vue instance - one per application
-            new Vue({
+            const root = new Vue({
                 el: "#app",
+                // Vue transforms the data object into a "reactive" object (internally)
                 data: {
                     message: "Hello Vue!",
                 },
             });
+
+            console.log(root);
         </script>
     </body>
 </html>
