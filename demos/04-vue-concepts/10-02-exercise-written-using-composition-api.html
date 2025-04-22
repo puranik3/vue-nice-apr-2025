@@ -1,0 +1,108 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            // import { reactive } from 'vue';
+            const { reactive } = Vue;
+
+            const app = Vue.createApp({
+                setup() {
+                    // --- data ---
+                    const plan = reactive({
+                        name: "Free",
+                        feature: "create unlimited public repositories",
+                    });
+
+                    // --- methods ---
+                    const getFreePlan = () => {
+                        plan.name = "Free";
+                        plan.feature = "create unlimited public repositories";
+                    };
+
+                    const getPremiumPlan = () => {
+                        plan.name = "Premium";
+                        plan.feature =
+                            "free plan features + create unlimited private repositories";
+                    };
+
+                    const getProPlan = () => {
+                        plan.name = "Pro";
+                        plan.feature =
+                            "premium plan features + you can use CoPilot";
+                    };
+
+                    // make these things (including data, methods) available to the template
+                    return {
+                        plan,
+                        getFreePlan,
+                        getPremiumPlan,
+                        getProPlan,
+                    };
+                },
+                template: `
+                    <div class="container my-4">
+                        <h1>My subscription</h1>
+                        <hr />
+
+                        <!--
+                            You can be on
+                                - 'Free' plan -> create unlimited public repositories
+                                - 'Premium' plan -> create unlimited private repositories
+                                - 'Pro' plan -> create unlimited private repositories, you can use CoPilot
+
+                            What to show (Use v-else-if)
+                            - Name of plan
+                            - Features of plan
+                            - 2 Buttons to switcg to the other 2 plans
+                        -->
+                        <div>
+                            <strong>{{plan.name}}</strong> plan opted which offers features like <strong>{{ plan.feature }}</strong>
+                        </div>
+
+                        <div class="my-3">
+                            <button
+                                @click = "getProPlan()"
+                                class="btn btn-sm btn-primary mx-1"
+                                v-if="plan.name !== 'Pro'"
+                            >
+                                Switch to Pro
+                            </button>
+
+                            <button
+                                @click= "getPremiumPlan()"
+                                class="btn btn-sm btn-primary mx-1"
+                                v-if="plan.name !== 'Premium'"
+                            >
+                                Premium
+                            </button>
+
+                            <button
+                                @click= "getFreePlan() "
+                                class="btn btn-sm btn-primary mx-1"
+                                v-if="plan.name !== 'Free'"
+                            >
+                                Free
+                            </button>
+                        </div>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>

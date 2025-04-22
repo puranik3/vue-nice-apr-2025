@@ -1,0 +1,48 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        name: "Vue 2",
+                    };
+                },
+                methods: {
+                    getMessage(greeting = "Hello") {
+                        return `${greeting} ${this.name}`;
+                    },
+                    changeName(event, name = "Vue 3") {
+                        console.log(event);
+                        this.name = name;
+                    },
+                },
+                template: `
+                    <div>
+                        <div>{{ getMessage() }}</div>
+                        <div>{{ getMessage( "Good morning" ) }}</div>
+
+                        <button @click="changeName">Change name to Vue 3</button>
+                        <button @click="changeName($event, 'World')">Change name to World</button>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>
