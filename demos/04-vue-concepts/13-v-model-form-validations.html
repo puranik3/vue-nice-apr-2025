@@ -1,0 +1,139 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        credentials: {
+                            username: "jonathan",
+                            password: "",
+                        },
+                        errors: {
+                            username: "",
+                            password: "",
+                        },
+                    };
+                },
+                methods: {
+                    login(event) {
+                        // prevent browser form submission
+                        // event.preventDefault();
+
+                        const credentials = {
+                            username: this.credentials.username,
+                            password: this.credentials.password,
+                        };
+
+                        // validate user data
+                        if (this.validatePassword()) {
+                            console.log("All good!");
+                            // we will send the data (here we log the data instead)
+                            console.log(credentials); // local credentials created above - no extra methods etc.
+                        } else {
+                            console.log(this.errors.password);
+                        }
+                    },
+                    validatePassword() {
+                        // validations
+                        // add a "required" check on the password
+                        // ...
+
+                        if (/[A-Z]/.test(this.credentials.password) === false) {
+                            this.errors.password =
+                                "Requires at least one uppercase letter";
+                            return false; // stop validating
+                        }
+
+                        if (/[a-z]/.test(this.credentials.password) === false) {
+                            this.errors.password =
+                                "Requires at least one lowercase letter";
+                            return false; // stop validating
+                        }
+
+                        // add more validatons
+                        // ...
+
+                        this.errors.password = ""; // clear the error
+                        return true;
+                    },
+                },
+                template: `
+                    <div class="container my-5">
+                        <h1>Login</h1>
+                        <hr />
+
+                        <form @submit.prevent="login">
+                            <div class="row mb-2">
+                                <label
+                                    class="col-form-label col-12 col-md-2"
+                                    for="username"
+                                >
+                                    Username
+                                </label>
+                                <div class="col-12 col-md-10">
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        class="form-control"
+                                        name="username"
+                                        v-model="credentials.username"
+                                    />
+                                    <div>{{ credentials.username }}</div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label
+                                    class="col-form-label col-12 col-md-2"
+                                    for="password"
+                                >
+                                Password
+                                </label>
+                                <div class="col-12 col-md-10">
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        class="form-control"
+                                        name="password"
+                                        v-model="credentials.password"
+                                    />
+                                    <div
+                                        class="text-danger"
+                                        style="font-size: 0.85em;"
+                                    >
+                                        {{ errors.password }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm btn-primary"
+                                >
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>
