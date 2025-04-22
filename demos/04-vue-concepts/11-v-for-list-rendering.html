@@ -1,0 +1,63 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+        <script src="scripts/workshops.js"></script>
+
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        // ES2015 features if key and value have same identifier
+                        // workshops: workshops
+                        workshops,
+                    };
+                },
+                template: `
+                    <div class="container my-4">
+                        <h1>List of workshops</h1>
+                        <hr />
+
+                        <div class="row">
+                            <!-- <div class="col-12 col-md-4 my-3 d-flex" v-for="workshop in workshops"> -->
+                            <div
+                                class="col-12 col-md-4 my-3 d-flex"
+                                v-for="(workshop, index) in workshops"
+                                :key="workshop.id"
+                            >
+                                <div class="card p-3 w-100">
+                                    <img
+                                        :src="workshop.imageUrl"
+                                        :alt="workshop.name"
+                                        class="card-img-top"
+                                    >
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            {{ index + 1 }}. {{ workshop.name }}
+                                        </h5>
+                                        <div class="card-text" v-html="workshop.description"></div>
+                                        <a href="#" class="btn btn-primary">Know more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>
