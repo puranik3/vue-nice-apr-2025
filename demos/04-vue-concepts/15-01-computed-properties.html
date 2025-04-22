@@ -1,0 +1,59 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Computed Properties / Derived properties</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        firstName: "John",
+                        lastName: "Doe",
+                        age: 32,
+                    };
+                },
+                methods: {
+                    // fullName() {
+                    //     console.log("fullName method called");
+                    //     return `${this.firstName} ${this.lastName}`;
+                    // },
+                },
+                // computed values are like data (used like data), but written as function
+                // when used, the function is called, and it must do something and immediately return a value
+                // Vue tracks what data a computed value is based on, and re-evaluates the computed value only that data changes
+                computed: {
+                    fullName() {
+                        console.log("fullName method called");
+                        return `${this.firstName} ${this.lastName}`;
+                    },
+                },
+                template: `
+                    <div>
+                        <div>{{ firstName }} {{ lastName }}</div>
+                        <!-- <div>{{ fullName() }}</div> -->
+                        <div>{{ fullName }}</div>
+
+                        <button @click="lastName = lastName + '.'">Change last name</button>
+                        <button @click="++age">Increase age</button>
+                        <div>{{ age }}</div>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Computed Properties / Derived properties</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            // import { computed } from 'vue';
+            const { computed, ref } = Vue;
+
+            const app = Vue.createApp({
+                setup() {
+                    // --- data ---
+                    const firstName = ref("John"); // { value: "John" }
+                    const lastName = ref("Doe");
+                    const age = ref(32);
+
+                    // --- computed ---
+                    const fullName = computed(() => {
+                        console.log("fullName method called");
+                        return `${firstName.value} ${lastName.value}`;
+                    });
+
+                    return {
+                        firstName,
+                        lastName,
+                        age,
+                        fullName,
+                    };
+                },
+
+                // In template ref value "unwrapping" is automatic (we can use .value, or we may skip)
+                template: `
+                    <div>
+                        <div>{{ firstName.value }} {{ lastName }}</div>
+                        <div>{{ fullName }}</div>
+
+                        <button @click="lastName = lastName + '.'">Change last name</button>
+                        <button @click="++age">Increase age</button>
+                        <div>{{ age }}</div>
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>

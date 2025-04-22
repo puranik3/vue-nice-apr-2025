@@ -4,6 +4,9 @@ Apr 21 - 24, 2025
 
 Lunch break: 1:30 PM IST / 11:00 AM (Israel)
 
+## Exercises
+1. Day 2- Step 16 
+
 ## Software
 - [VSCode](https://code.visualstudio.com/)
 - [Node JS](https://nodejs.org/en)
