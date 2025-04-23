@@ -8,7 +8,9 @@ import Navbar from '@/components/common/Navbar.vue'
 
   <!-- <h1 class="app-title">Hello App component</h1>
   <v-btn>Button</v-btn> -->
-  <router-view></router-view>
+  <v-container class="my-6">
+    <router-view></router-view>
+  </v-container>
 </template>
 
 <style scoped>
