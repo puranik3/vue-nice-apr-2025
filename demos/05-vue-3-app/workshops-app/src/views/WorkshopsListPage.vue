@@ -1,20 +1,25 @@
 <template>
   <div class="container my-4">
     <h1>List of workshops</h1>
-    <hr />
+    <v-divider class="my-6"></v-divider>
 
     <div>You are on page {{ page }}</div>
-    <button class="btn btn-sm btn-primary me-2" @click="changePage(-1)">Previous</button>
-    <button class="btn btn-sm btn-primary me-2" @click="changePage(1)">Next</button>
+    <v-btn color="primary" @click="changePage(-1)" class="mr-2">Previous</v-btn>
+    <v-btn color="primary" @click="changePage(1)">Next</v-btn>
 
-    <div v-if="loading" class="d-flex justify-content-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <div v-if="loading">
+      <div class="text-center my-6">
+        <v-progress-circular color="primary" indeterminate></v-progress-circular>
       </div>
     </div>
 
-    <div v-else-if="error !== null" class="alert alert-danger" role="alert">
-      {{ error.message }}
+    <div v-else-if="error !== null">
+      <v-alert color="danger" variant="outlined">
+        <template v-slot:title>
+          <strong>Something went wrong!</strong>
+        </template>
+        {{ error.message }}
+      </v-alert>
     </div>
 
     <div v-else>
