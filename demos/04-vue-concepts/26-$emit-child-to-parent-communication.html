@@ -1,0 +1,96 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            const PanelQuestion = {
+                name: "PanelQuestion",
+                props: ["question"],
+                methods: {
+                    onQuestionClick() {
+                        // inform the parent of the click - do this by emitting a "custom event"
+                        // second argument -> custom event object
+                        this.$emit("questionClick", {
+                            message: "Hi parent",
+                        });
+                    },
+                },
+                template: `
+                    <div class="p-3 bg-dark text-light" @click="onQuestionClick">{{ question }}</div>
+                `,
+            };
+
+            const PanelAnswer = {
+                name: "PanelAnswer",
+                props: ["answer", "s"],
+
+                template: `
+                    <div class="p-3" v-if="s">{{ answer }}</div>
+                `,
+            };
+
+            const AppPanel = {
+                name: "Panel",
+                props: ["question", "answer"],
+                data() {
+                    return {
+                        show: true,
+                    };
+                },
+                components: {
+                    // PanelQuestion: PanelQuestion
+                    PanelQuestion,
+                    PanelAnswer,
+                },
+                methods: {
+                    toggleShow(event) {
+                        console.log(event);
+                        this.show = !this.show;
+                    },
+                },
+                template: `
+                    <div class="border border-dark">
+                        <panel-question
+                            :question="question"
+                            @questionClick="toggleShow($event)"
+                        />
+                        <!-- concept of "slot" is better suited for passing answer -->
+                        <panel-answer :answer="answer" :s="show" />
+                    </div>
+                `,
+            };
+
+            const app = Vue.createApp({
+                data() {
+                    return {};
+                },
+                components: {
+                    AppPanel,
+                },
+                template: `
+                    <div class="container my-5">
+                        <app-panel
+                            question="What is Vue?"
+                            answer="It is a frontend library for building Single Page Applications"
+                        />
+                    </div>
+                `,
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>
