@@ -26,28 +26,25 @@
 
     <div v-else>
       <v-row>
-        <v-col :cols="12" :sm="12" :md="4" v-for="workshop in workshops" :key="workshop.id">
-          <div class="card p-3 w-100">
-            <img :src="workshop.imageUrl" :alt="workshop.name" class="card-img-top" />
-            <div class="card-body">
-              <h5 class="card-title">
-                {{ workshop.name }}
-              </h5>
-              <div class="card-text"></div>
-              <a href="#" class="btn btn-primary">Know more</a>
-            </div>
-          </div>
-
-          <v-card>
+        <v-col
+          :cols="12"
+          :sm="12"
+          :md="4"
+          class="d-flex"
+          v-for="workshop in workshops"
+          :key="workshop.id"
+        >
+          <v-card class="w-100">
             <v-img
               class="align-end text-white"
-              height="200"
+              height="400"
               :src="workshop.imageUrl"
               :alt="workshop.name"
-              cover
+              contain
             >
-              <v-card-title>{{ workshop.name }}</v-card-title>
             </v-img>
+
+            <v-card-title>{{ workshop.name }}</v-card-title>
 
             <v-card-text v-html="workshop.description"></v-card-text>
 
