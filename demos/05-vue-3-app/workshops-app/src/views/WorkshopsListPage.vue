@@ -34,10 +34,10 @@
           v-for="workshop in workshops"
           :key="workshop.id"
         >
-          <v-card class="w-100">
+          <v-card class="w-100 pa-6">
             <v-img
               class="align-end text-white"
-              height="400"
+              height="200"
               :src="workshop.imageUrl"
               :alt="workshop.name"
               contain
