@@ -1,0 +1,61 @@
+<!-- ! + Enter -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+        <style>
+            .icon-button__icon {
+                margin-right: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.min.js"></script>
+
+        <script>
+            // Component Definition Object
+            const IconButton = {
+                props: ["icon", "btnText"], // use it as btnText="" or btn-text=""
+                template: `
+                    <button class="icon-button">
+                        <span class="icon-button__icon">{{ icon }}</span>
+                        <span>{{ btnText }}</span>
+                    </button>
+                `,
+            };
+
+            const app = Vue.createApp({
+                // components: {
+                //     IButton: IconButton,
+                // },
+                data() {
+                    return {
+                        // actionsButtons: actionButtons // [ { icon: '', text: '' }, ... ]
+                        icon: "😀",
+                    };
+                },
+                template: `
+                    <div>
+                        <icon-button :icon="icon" btn-text="Smile"></icon-button>
+                        <IconButton icon="😂" btnText="Laugh"></IconButton>
+                        <IconButton icon="😇" btnText="Halo" />
+                    </div>
+                `,
+            });
+
+            // global registration
+            // app.component("IButton", IconButton);
+            app.component("IconButton", IconButton); // use the component as <icon-button /> or <IconButton />
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>
