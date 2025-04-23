@@ -15,28 +15,50 @@
 
     <div v-else-if="error !== null">
       <v-alert color="danger" variant="outlined">
+        <!-- through the concept of slot we can pass HTML content from parent to child - this helps us customize the HTML rendered by the child component. -->
+        <!-- A component can have multiple names slot (eg. title slot), and one default slot. A template is used by the parent component to pass HTML for a named slot in the child component. Any content outside of template is inserted into the default slot in the child component. -->
+        {{ error.message }}
         <template v-slot:title>
           <strong>Something went wrong!</strong>
         </template>
-        {{ error.message }}
       </v-alert>
     </div>
 
     <div v-else>
-      <div class="row">
-        <div class="col-12 col-md-4 my-3 d-flex" v-for="workshop in workshops" :key="workshop.id">
+      <v-row>
+        <v-col :cols="12" :sm="12" :md="4" v-for="workshop in workshops" :key="workshop.id">
           <div class="card p-3 w-100">
             <img :src="workshop.imageUrl" :alt="workshop.name" class="card-img-top" />
             <div class="card-body">
               <h5 class="card-title">
                 {{ workshop.name }}
               </h5>
-              <div class="card-text" v-html="workshop.description"></div>
+              <div class="card-text"></div>
               <a href="#" class="btn btn-primary">Know more</a>
             </div>
           </div>
-        </div>
-      </div>
+
+          <v-card>
+            <v-img
+              class="align-end text-white"
+              height="200"
+              :src="workshop.imageUrl"
+              :alt="workshop.name"
+              cover
+            >
+              <v-card-title>{{ workshop.name }}</v-card-title>
+            </v-img>
+
+            <v-card-text v-html="workshop.description"></v-card-text>
+
+            <v-card-actions>
+              <router-link to="/">
+                <v-btn href="#" class="btn btn-primary">Know more</v-btn>
+              </router-link>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
