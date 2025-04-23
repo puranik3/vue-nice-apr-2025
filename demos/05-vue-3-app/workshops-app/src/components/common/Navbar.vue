@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <a href="/">Home</a>
-    <a href="/workshops">List of workshops</a>
+    <router-link to="/" active-class="x">Home</router-link>
+    <router-link to="/workshops" active-class="x">List of workshops</router-link>
   </nav>
 </template>
 
@@ -11,6 +11,10 @@
 nav {
   padding: 16px;
   background-color: lightgray;
+  color: white;
+}
+
+.x {
   color: white;
 }
 </style>

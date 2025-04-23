@@ -9,4 +9,8 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped>
+h1 {
+  color: crimson;
+}
+</style>
