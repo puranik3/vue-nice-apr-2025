@@ -62,12 +62,13 @@
 
 <script setup lang="ts">
 import { fetchWorkshops } from '@/services/workshops'
+import type { IWorkshop } from '@/services/workshops'
 import { ref, onMounted, watch } from 'vue'
 
 // --- data ---
 const loading = ref(true)
-const workshops = ref([])
-const error = ref(null)
+const workshops = ref<IWorkshop[]>([])
+const error = ref<null | Error>(null)
 const page = ref(1)
 
 // --- methods ---
@@ -82,7 +83,7 @@ const getWorkshops = async () => {
     const data = await fetchWorkshops(page.value)
     workshops.value = data
   } catch (err) {
-    error.value = err
+    error.value = err as Error
   } finally {
     loading.value = false
   }
