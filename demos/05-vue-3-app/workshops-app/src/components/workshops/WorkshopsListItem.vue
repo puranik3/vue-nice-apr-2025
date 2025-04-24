@@ -11,7 +11,7 @@
       <!-- <router-link :to="`/workshops/${w.id}`"> -->
       <router-link
         :to="{
-          name: 'workshop-details',
+          name: 'sessions-list',
           params: { id: w.id },
         }"
       >

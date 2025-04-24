@@ -1,4 +1,5 @@
 import './assets/main.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -12,6 +13,14 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import colors from 'vuetify/util/colors'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+
+import VotingWidget from '@/components/common/VotingWidget.vue'
+
+library.add(fas)
 
 // run the file
 import './services/configureAxios'
@@ -35,6 +44,10 @@ const vuetify = createVuetify({
 })
 
 const app = createApp(App)
+
+// global registration of utility components
+app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('voting-widget', VotingWidget)
 
 // #3 - add vuetify plugin - Vuetify's components, directives are registered and ready for use
 app.use(vuetify)
