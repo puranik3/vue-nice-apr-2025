@@ -34,7 +34,7 @@
           v-for="workshop in workshops"
           :key="workshop.id"
         >
-          <workshops-list-item :w="workshop" :x="100" ></workshops-list-item>
+          <workshops-list-item :w="workshop" :x="100"></workshops-list-item>
         </v-col>
       </v-row>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <router-link to="/" active-class="x">Home</router-link>
-    <router-link to="/workshops" active-class="x">List of workshops</router-link>
+    <router-link :to="{ name: 'home' }" active-class="x">Home</router-link>
+    <router-link :to="{ name: 'workshops-list' }" active-class="x">List of workshops</router-link>
   </nav>
 </template>
 
