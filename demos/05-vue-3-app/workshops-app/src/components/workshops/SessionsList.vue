@@ -39,11 +39,11 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const fetcher = () => {
+const fetcher = (): Promise<ISession[]> => {
   return fetchSessionsForWorkshop(props.id)
 }
 
-const { loading, error, data: sessions } = useFetch([], fetcher)
+const { loading, error, data: sessions } = useFetch<ISession[]>([], fetcher)
 
 const vote = async (voteType: 'upvote' | 'downvote', session: ISession) => {
   //   alert(voteType + ' ' + session.name)

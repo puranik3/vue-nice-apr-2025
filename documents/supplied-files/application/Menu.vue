@@ -14,6 +14,9 @@
             <div>
                 <span to="#" class="link">Change theme</span>
                 <span to="#" class="link">Logout</span>
+                <router-link class="link" :to="{ name: 'login' }"
+                    >Login</router-link
+                >
             </div>
             <!--
       <div>
