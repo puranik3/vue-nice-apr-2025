@@ -13,6 +13,9 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import colors from 'vuetify/util/colors'
 
+// run the file
+import './services/configureAxios'
+
 // #2 - configure vuetify "plugin"
 const vuetify = createVuetify({
   components,
