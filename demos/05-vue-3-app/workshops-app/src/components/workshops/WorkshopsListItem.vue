@@ -8,7 +8,13 @@
     <v-card-text v-html="w.description"></v-card-text>
 
     <v-card-actions>
-      <router-link to="/">
+      <!-- <router-link :to="`/workshops/${w.id}`"> -->
+      <router-link
+        :to="{
+          name: 'workshop-details',
+          params: { id: w.id },
+        }"
+      >
         <v-btn href="#" class="btn btn-primary">Know more</v-btn>
       </router-link>
     </v-card-actions>
