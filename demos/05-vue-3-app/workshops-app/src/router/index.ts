@@ -21,6 +21,7 @@ const router = createRouter({
       name: 'workshop-details',
       path: '/workshops/:id',
       component: WorkshopDetailsPage,
+      props: true,
     },
   ],
 })

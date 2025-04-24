@@ -38,15 +38,11 @@ const fetchWorkshops = async (page: number) => {
   return response.data
 }
 
-// const fetchWorkshopById = async (page: number) => {
-//   const response = await axios.get(`/workshops/2`, {
-//     params: {
-//       _page: page,
-//     },
-//   })
+const fetchWorkshopById = async (id: number | string) => {
+  const response = await axios.get<IWorkshop>(`/workshops/${id}`)
 
-//   return response.data
-// }
+  return response.data
+}
 
-export { fetchWorkshops }
+export { fetchWorkshops, fetchWorkshopById }
 export type { Category, ILocation, IModes, IWorkshop }
