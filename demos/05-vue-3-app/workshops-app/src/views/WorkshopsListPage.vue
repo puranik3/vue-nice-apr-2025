@@ -46,34 +46,25 @@ import { fetchWorkshops } from '@/services/workshops'
 import type { IWorkshop } from '@/services/workshops'
 import { ref, onMounted, watch } from 'vue'
 import WorkshopsListItem from '../components/workshops/WorkshopsListItem.vue'
+import useFetch from '@/composables/useFetch';
 
 // --- data ---
-const loading = ref(true)
-const workshops = ref<IWorkshop[]>([])
-const error = ref<null | Error>(null)
 const page = ref(1)
+
+const fetcher = () => {
+  return fetchWorkshops(page.value);
+}
+const {
+  loading,
+  data: workshops,
+  error,
+  getData: getWorkshops
+} = useFetch<IWorkshop[]>([] as IWorkshop[], fetcher);
 
 // --- methods ---
 const changePage = (by = 1) => {
   page.value = page.value + by
 }
-
-const getWorkshops = async () => {
-  loading.value = true
-
-  try {
-    const data = await fetchWorkshops(page.value)
-    workshops.value = data
-  } catch (err) {
-    error.value = err as Error
-  } finally {
-    loading.value = false
-  }
-}
-
-// --- lifecycle hooks ---
-// created() lifecycle method logic of options API is written in setup function itself
-getWorkshops()
 
 // mounted
 onMounted(() => {

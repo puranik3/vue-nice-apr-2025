@@ -8,6 +8,7 @@ import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 import type { IWorkshop } from '@/services/workshops'
 import { fetchWorkshopById } from '@/services/workshops'
+import useFetch from '@/composables/useFetch'
 
 interface Props {
   id: string
@@ -21,25 +22,11 @@ const id = route.params.id
 console.log(id)
 console.log(props.id)
 
-// --- data ---
-const loading = ref(true)
-const workshop = ref<null | IWorkshop>(null)
-const error = ref<null | Error>(null)
-
-const getWorkshopById = async () => {
-  loading.value = true
-
-  try {
-    const data = await fetchWorkshopById(id)
-    workshop.value = data
-  } catch (err) {
-    error.value = err as Error
-  } finally {
-    loading.value = false
-  }
+const fetcher = () => {
+  return fetchWorkshopById(id)
 }
 
-getWorkshopById()
+const { loading, data: workshop, error } = useFetch<IWorkshop[]>([] as IWorkshop[], fetcher)
 </script>
 
 <style scoped></style>
