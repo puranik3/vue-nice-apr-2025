@@ -34,26 +34,7 @@
           v-for="workshop in workshops"
           :key="workshop.id"
         >
-          <v-card class="w-100 pa-6">
-            <v-img
-              class="align-end text-white"
-              height="200"
-              :src="workshop.imageUrl"
-              :alt="workshop.name"
-              contain
-            >
-            </v-img>
-
-            <v-card-title>{{ workshop.name }}</v-card-title>
-
-            <v-card-text v-html="workshop.description"></v-card-text>
-
-            <v-card-actions>
-              <router-link to="/">
-                <v-btn href="#" class="btn btn-primary">Know more</v-btn>
-              </router-link>
-            </v-card-actions>
-          </v-card>
+          <workshops-list-item :w="workshop" :x="100" ></workshops-list-item>
         </v-col>
       </v-row>
     </div>
@@ -64,6 +45,7 @@
 import { fetchWorkshops } from '@/services/workshops'
 import type { IWorkshop } from '@/services/workshops'
 import { ref, onMounted, watch } from 'vue'
+import WorkshopsListItem from '../components/workshops/WorkshopsListItem.vue'
 
 // --- data ---
 const loading = ref(true)
